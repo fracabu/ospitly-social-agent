@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ospitly Social Media Launch Package</title>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --teal: #0F766E;
+            --terracotta: #C0504D;
+            --cream: #FFF8E7;
+            --charcoal: #2D3748;
+            --light-gray: #F7FAFC;
+            --border: #E2E8F0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--light-gray);
+            color: var(--charcoal);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--teal) 0%, #0D9488 100%);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .nav-section {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-section h2 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #718096;
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--cream);
+            border-color: var(--teal);
+        }
+
+        .nav-item.active {
+            background: var(--teal);
+            color: white;
+        }
+
+        .nav-item-icon {
+            font-size: 1.25rem;
+            margin-right: 0.75rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-item-content {
+            flex: 1;
+        }
+
+        .nav-item-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.125rem;
+        }
+
+        .nav-item-desc {
+            font-size: 0.75rem;
+            opacity: 0.7;
+        }
+
+        .nav-item.active .nav-item-desc {
+            opacity: 0.9;
+        }
+
+        .nav-item-badge {
+            background: var(--terracotta);
+            color: white;
+            padding: 0.125rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .nav-item.active .nav-item-badge {
+            background: white;
+            color: var(--teal);
+        }
+
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+            padding: 2rem 3rem;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex-direction: column;
+            color: #718096;
+        }
+
+        .loading-spinner {
+            border: 3px solid var(--border);
+            border-top-color: var(--teal);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 0.5rem;
+        }
+
+        .content-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .content-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .markdown-content {
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .markdown-content h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--teal);
+        }
+
+        .markdown-content h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--charcoal);
+            margin: 1.75rem 0 0.875rem;
+            padding-bottom: 0.375rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .markdown-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--teal);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        .markdown-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--charcoal);
+            margin: 1.25rem 0 0.625rem;
+        }
+
+        .markdown-content p {
+            margin: 1rem 0;
+        }
+
+        .markdown-content ul, .markdown-content ol {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+
+        .markdown-content li {
+            margin: 0.5rem 0;
+        }
+
+        .markdown-content a {
+            color: var(--teal);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .markdown-content a:hover {
+            border-bottom-color: var(--teal);
+        }
+
+        .markdown-content code {
+            background: var(--cream);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: var(--terracotta);
+        }
+
+        .markdown-content pre {
+            background: var(--charcoal);
+            color: var(--cream);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .markdown-content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+        }
+
+        .markdown-content blockquote {
+            border-left: 4px solid var(--teal);
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #4A5568;
+            font-style: italic;
+        }
+
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .markdown-content th {
+            background: var(--teal);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .markdown-content td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .markdown-content tr:hover {
+            background: var(--light-gray);
+        }
+
+        .markdown-content hr {
+            border: none;
+            border-top: 2px solid var(--border);
+            margin: 2rem 0;
+        }
+
+        .markdown-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .welcome-screen {
+            text-align: center;
+            padding: 3rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .welcome-screen h2 {
+            font-size: 1.75rem;
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-screen p {
+            color: #718096;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--light-gray);
+            padding: 1.25rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--teal);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #718096;
+        }
+
+        .search-box {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 0.75rem center;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                max-width: 320px;
+                position: fixed;
+                left: -320px;
+                top: 80px;
+                height: calc(100vh - 80px);
+                transition: left 0.3s;
+                z-index: 50;
+                box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+        }
+
+        .error-message {
+            background: #FEE2E2;
+            border: 1px solid #EF4444;
+            color: #991B1B;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--teal);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 40;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background: #0D9488;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 Ospitly.it - Social Media Launch Package</h1>
+        <p>Comprehensive Strategy, Calendar, Content & Guidelines</p>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Cerca documenti..." id="searchInput">
+            </div>
+
+            <div class="nav-section">
+                <h2>📚 Documenti Principali</h2>
+                <div class="nav-item" data-file="social-media-strategy.md">
+                    <div class="nav-item-icon">📋</div>
+                    <div class="nav-item-content">
+                        <div class="nav-item-title">Strategia Completa</div>
+                        <div class="nav-item-desc">Market analysis, personas, pillars</div>
+                    </div>
+                    <div class="nav-item-badge">68KB</div>
+                </div>
+
+                <div class="nav-item" data-file="editorial-calendar-month1.md">
+                    <div class="nav-item-icon">📅</div>
+                    <div class="nav-item-content">
+                        <div class="nav-item-title">Calendario Editoriale</div>
+                        <div class="nav-item-desc">80 post per Mese 1</div>
+                    </div>
+                    <div class="nav-item-badge">34KB</div>
+                </div>
+
+                <div class="nav-item" data-file="content-package.md">
+                    <div class="nav-item-icon">✨</div>
+                    <div class="nav-item-content">
+                        <div class="nav-item-title">Pacchetto Contenuti</div>
+                        <div class="nav-item-desc">12 contenuti pronti</div>
+                    </div>
+                    <div class="nav-item-badge">97KB</div>
+                </div>
+
+                <div class="nav-item" data-file="page-setup-guide.md">
+                    <div class="nav-item-icon">⚙️</div>
+                    <div class="nav-item-content">
+                        <div class="nav-item-title">Setup Pagine</div>
+                        <div class="nav-item-desc">Facebook & Instagram</div>
+                    </div>
+                    <div class="nav-item-badge">56KB</div>
+                </div>
+
+                <div class="nav-item" data-file="visual-identity-guidelines.md">
+                    <div class="nav-item-icon">🎨</div>
+                    <div class="nav-item-content">
+                        <div class="nav-item-title">Brand Identity</div>
+                        <div class="nav-item-desc">Colori, font, template</div>
+                    </div>
+                    <div class="nav-item-badge">59KB</div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="mainContent">
+            <div class="welcome-screen">
+                <div class="welcome-icon">🇮🇹</div>
+                <h2>Benvenuto nel Launch Package Ospitly.it</h2>
+                <p>
+                    Questa applicazione ti permette di esplorare facilmente tutti i documenti della strategia
+                    social media per il lancio di Ospitly su Facebook e Instagram.
+                </p>
+                <p>
+                    Seleziona un documento dal menu laterale per iniziare a esplorare il contenuto completo
+                    della strategia, calendario editoriale, contenuti pronti e linee guida.
+                </p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">314KB</div>
+                        <div class="stat-label">Contenuti Totali</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">80+</div>
+                        <div class="stat-label">Post Pianificati</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Contenuti Pronti</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Documenti</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="back-to-top" id="backToTop">
+        ↑
+    </div>
+
+    <script>
+        // File metadata
+        const fileMetadata = {
+            'social-media-strategy.md': {
+                title: 'Social Media Strategy',
+                icon: '📋',
+                description: 'Strategia completa per il lancio social media'
+            },
+            'editorial-calendar-month1.md': {
+                title: 'Calendario Editoriale - Mese 1',
+                icon: '📅',
+                description: '28 giorni di contenuti pianificati'
+            },
+            'content-package.md': {
+                title: 'Pacchetto Contenuti',
+                icon: '✨',
+                description: '12 contenuti pronti per la pubblicazione'
+            },
+            'page-setup-guide.md': {
+                title: 'Guida Setup Pagine',
+                icon: '⚙️',
+                description: 'Setup completo Facebook e Instagram'
+            },
+            'visual-identity-guidelines.md': {
+                title: 'Linee Guida Visual Identity',
+                icon: '🎨',
+                description: 'Brand identity e design system'
+            }
+        };
+
+        // DOM elements
+        const navItems = document.querySelectorAll('.nav-item');
+        const mainContent = document.getElementById('mainContent');
+        const backToTop = document.getElementById('backToTop');
+        const searchInput = document.getElementById('searchInput');
+
+        // Load and display markdown file
+        async function loadMarkdownFile(filename) {
+            try {
+                // Show loading state
+                mainContent.innerHTML = `
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Caricamento in corso...</p>
+                    </div>
+                `;
+
+                // Fetch the file
+                const response = await fetch(filename);
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${filename}`);
+                }
+
+                const markdown = await response.text();
+                const metadata = fileMetadata[filename];
+
+                // Convert markdown to HTML
+                const htmlContent = marked.parse(markdown);
+
+                // Calculate reading time (rough estimate: 200 words per minute)
+                const wordCount = markdown.split(/\s+/).length;
+                const readingTime = Math.ceil(wordCount / 200);
+
+                // Display content with header
+                mainContent.innerHTML = `
+                    <div class="content-header">
+                        <div class="content-title">
+                            ${metadata.icon} ${metadata.title}
+                        </div>
+                        <div class="content-meta">
+                            <div class="content-meta-item">
+                                <span>📄</span>
+                                <span>${(new Blob([markdown]).size / 1024).toFixed(1)} KB</span>
+                            </div>
+                            <div class="content-meta-item">
+                                <span>⏱️</span>
+                                <span>${readingTime} min lettura</span>
+                            </div>
+                            <div class="content-meta-item">
+                                <span>📝</span>
+                                <span>${wordCount.toLocaleString()} parole</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="markdown-content">
+                        ${htmlContent}
+                    </div>
+                `;
+
+                // Scroll to top
+                mainContent.scrollTop = 0;
+
+            } catch (error) {
+                console.error('Error loading file:', error);
+                mainContent.innerHTML = `
+                    <div class="error-message">
+                        <strong>⚠️ Errore nel caricamento</strong>
+                        <p>Non è stato possibile caricare il file ${filename}. Assicurati che il file esista nella stessa cartella di questa applicazione.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Handle navigation item clicks
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                // Remove active class from all items
+                navItems.forEach(nav => nav.classList.remove('active'));
+
+                // Add active class to clicked item
+                this.classList.add('active');
+
+                // Load the file
+                const filename = this.getAttribute('data-file');
+                loadMarkdownFile(filename);
+            });
+        });
+
+        // Search functionality
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+
+            navItems.forEach(item => {
+                const title = item.querySelector('.nav-item-title').textContent.toLowerCase();
+                const desc = item.querySelector('.nav-item-desc').textContent.toLowerCase();
+
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+        // Back to top button
+        mainContent.addEventListener('scroll', function() {
+            if (mainContent.scrollTop > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', function() {
+            mainContent.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                searchInput.focus();
+            }
+
+            // Escape to clear search
+            if (e.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                searchInput.dispatchEvent(new Event('input'));
+                searchInput.blur();
+            }
+        });
+
+        // Initialize marked.js options
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: true,
+            mangle: false
+        });
+    </script>
+</body>
+</html>
