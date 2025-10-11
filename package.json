@@ -1,0 +1,28 @@
+{
+  "name": "ospitly-social-agent",
+  "version": "1.0.0",
+  "description": "Comprehensive social media strategy, editorial calendar, and ready-to-publish content for launching Ospitly.it on Facebook and Instagram",
+  "main": "viewer.html",
+  "scripts": {
+    "dev": "python -m http.server 8080",
+    "start": "python -m http.server 8080"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fracabu/ospitly-social-agent.git"
+  },
+  "keywords": [
+    "social-media",
+    "strategy",
+    "content-marketing",
+    "hospitality",
+    "italy",
+    "ospitly"
+  ],
+  "author": "Ospitly.it",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fracabu/ospitly-social-agent/issues"
+  },
+  "homepage": "https://github.com/fracabu/ospitly-social-agent#readme"
+}

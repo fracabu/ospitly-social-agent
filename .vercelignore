@@ -1,0 +1,9 @@
+# Ignore Claude configuration
+.claude/
+
+# Ignore git
+.git/
+.gitignore
+
+# Ignore local files
+*.local
